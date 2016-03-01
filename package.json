@@ -4,8 +4,15 @@
   "description": "yet another blogging platform",
   "main": "index.js",
   "dependencies": {
+    "rxjs": "^5.0.0-beta.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jade": "^1.1.0",
+    "gulp-sass": "^2.2.0",
+    "gulp-typescript": "^2.12.0",
+    "del": "^2.2.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

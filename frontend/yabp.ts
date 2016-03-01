@@ -1,4 +1,5 @@
 /// <reference path="./d.ts/node.d.ts" />
+/// <reference path="node_modules/angular2/typings/browser.d.ts" />
 
 //ES2015 imports
 import {Component} from 'angular2/core'
