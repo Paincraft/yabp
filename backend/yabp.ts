@@ -5,8 +5,9 @@ import {YabpConfig} from './modules/config/config.ts';
 
 import databaseSetup = require('./modules/db/databaseSetup.ts')
 import koa = require('koa');
+//import System = require('systemjs');
 
-var router = require('koa-router');
+var router = require('koa-router')();
 var yabpServer = new koa();
 
 router

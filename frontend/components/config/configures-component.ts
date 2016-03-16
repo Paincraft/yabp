@@ -3,13 +3,13 @@ import {Component} from 'angular2/core';
 import {Http, HTTP_PROVIDERS} from 'angular2/http';
 
 @Component({
-    selector: 'yabp',
-    templateUrl: './configure.component.html'
+    selector: 'yabp-config',
+    templateUrl: './templates/configure.component.html'
 })
 
 export class Yabp{
     result: Object;
-    constructor(@Inject(Http) http: Http) {
+    constructor(http: Http) {
         this.result = false;
         http.get('',{url : 'http://localhost:1988/REST/config/isConfigured'}).subscribe(res => this.result = JSON.parse(res["_body"]));
     }

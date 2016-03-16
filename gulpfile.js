@@ -1,28 +1,33 @@
 var gulp = require('gulp');
 var jade = require('gulp-jade');
 var sass = require('gulp-sass');
+var install = require('gulp-install');
 var ts = require('gulp-typescript');
 var del = require('del');
 
 var path = {
   frontend : 'frontend/**/*',
   backend : 'backend/**/*',
-  excluded_frontend : '!frontend/node_modules',
-  excluded_backend : '!backend/node_modules'
+  frontendFiles: ["frontend/index.html", "frontend/typings.json","frontend/typings/**/*"],
+  backendFiles: ["tsconfig.json"]
 };
 
 var base = {base: './'};
 
 var tsConfigFront = ts.createProject('frontend/tsconfig.json',{noExternalResolve: false});
-var tsConfigBack = ts.createProject('tsconfig-backend.json',{noExternalResolve: false});
+var tsConfigBack = ts.createProject('backend/tsconfig.json',{noExternalResolve: false});
 
-gulp.task('clean', function () {
-  return del('../dist/**/*',{force: true});
+//common
+gulp.task('clean', function (end) {
+  del.sync('../dist/**/*',{force: true});
+  end()
 });
 
+
+//frontend
 gulp.task('jade',['clean'], function() {
   var LOCALS = {};
-  return gulp.src([path.frontend + '.jade',path.excluded_frontend], base)
+  gulp.src([path.frontend + '.jade',path.excluded_frontend], base)
     .pipe(jade({
       locals: LOCALS
     }))
@@ -30,23 +35,57 @@ gulp.task('jade',['clean'], function() {
 });
 
 gulp.task('sass',['clean'], function () {
-  return gulp.src([path.frontend + '.sass',path.excluded_frontend],base)
+  gulp.src([path.frontend + '.sass',path.excluded_frontend],base)
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('../dist'));
 });
 
-gulp.task('ts-front',['clean'], function () {
-	var result = tsConfigFront.src().pipe(ts(tsConfigFront));
-  return result.js.pipe(gulp.dest('../dist/frontend'));
+gulp.task('ts-front',['clean'], function (end) {
+	var result = tsConfigFront.src(base).pipe(ts(tsConfigFront));
+  result.js.pipe(gulp.dest('../dist/frontend')).on('end',function(){
+    end();
+  });
 });
 
-gulp.task('ts-back',['clean'], function () {
+gulp.task('front-copy-files',['clean','ts-front'], function (end) {
+  gulp.src(path.frontendFiles,base).pipe(gulp.dest('../dist')).on('end',function(){
+    end();
+  });
+});
+
+gulp.task('front-install',['clean','ts-front'], function () {
+  gulp.src('frontend/package.json',base).pipe(gulp.dest('../dist')).on('end',function(){
+    setTimeout(function(){
+      gulp.src('../dist/frontend/package.json',base).pipe(install());
+    }, 500);
+  });
+});
+
+//backend
+gulp.task('ts-back',['clean'], function (end) {
   var result = tsConfigBack.src(base).pipe(ts(tsConfigBack));
-  return result.js.pipe(gulp.dest('../dist'));
+  result.js.pipe(gulp.dest('../dist'));
+  end();
 });
 
+gulp.task('back-copy-files',['clean','ts-back'], function (end) {
+  gulp.src(path.backendFiles,base).pipe(gulp.dest('../dist')).on('end',function(){
+    end();
+  });
+});
+
+gulp.task('back-install',['clean','ts-back'], function () {
+  gulp.src('backend/package.json',base).pipe(gulp.dest('../dist')).on('end',function(){
+    setTimeout(function(){
+      gulp.src('../dist/backend/package.json',base).pipe(install());
+    }, 1000);
+  });
+});
+
+
+//run
 gulp.task('watch', function() {
-  //gulp.watch(path.templates, ['jade','sass','ts-front','ts-back']);
+  gulp.watch(path.templates, ['jade','sass','ts-front','ts-back']);
 });
 
-gulp.task('default', ['watch','clean','ts-front']);
+gulp.task('default', ['watch','clean','ts-front','ts-back','front-copy-files','back-copy-files','back-install','front-install']);
