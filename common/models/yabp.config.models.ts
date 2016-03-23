@@ -11,10 +11,11 @@ interface IYabpServerConfig{
 interface IYabpConfigData {
 	db:IYabpDbConfig;
 	server:IYabpServerConfig;
+	cors?:any;
 }
 
 interface IYabpConfig{
   getConfig():IYabpConfigData;
-  setProperty(namespace:string,property:string, value:string):boolean;
-  isConfigured():boolean;
+  setProperty(namespace:string,property:string, value:string):Boolean;
+  isConfigured():Boolean;
 }

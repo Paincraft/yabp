@@ -3,18 +3,16 @@
     "outDir": "../../dist",
     "target": "ES5",
     "module": "system",
-    "sourceMap": false,
+    "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "removeComments": false,
     "noImplicitAny": false,
-    "suppressImplicitAnyIndexErrors": true
+    "suppressImplicitAnyIndexErrors": true,
+    "rootDir": "./" 
   },
   "exclude": [
-    "node_modules",
-    "d.ts",
-    "typings/main",
-    "typings/main.d.ts"
+    "node_modules"
   ]
 }

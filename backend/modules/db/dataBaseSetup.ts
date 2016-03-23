@@ -1,5 +1,3 @@
-/// <reference path="../../d.ts/node.d.ts" />
-/// <reference path="../../d.ts/mongoose.d.ts" />
 /// <reference path="../../../common/models/yabp.blog.models.ts"/>
 
 import mongo = require('mongoose');
@@ -36,3 +34,4 @@ function setupDB(config){
 
 //module.exports = setupDB;
 */
+module.exports = setupDB;

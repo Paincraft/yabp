@@ -1,7 +1,7 @@
 
 import {Inject} from 'angular2/core';
 import {Component} from 'angular2/core';
-import {Http, Headers, Response, HTTP_PROVIDERS} from 'angular2/http'
+import {Http, HTTP_PROVIDERS} from 'angular2/http'
 
 
 @Component({
@@ -12,8 +12,8 @@ import {Http, Headers, Response, HTTP_PROVIDERS} from 'angular2/http'
 
 export class Yabp{
     result: Object;
-    constructor(@Inject(Http) http: Http) {
-        this.result = false;
+    constructor(http: Http) {
+        this.result = {isConfigured: false};
         http.get('',{url : 'http://localhost:1988/REST/config/isConfigured'}).subscribe(res => this.result = JSON.parse(res["_body"]));
     }
 }
