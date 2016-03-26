@@ -1,6 +1,7 @@
 /// <reference path="../../../common/models/yabp.config.models.ts"/>
+/// <reference path="./models/config.models.ts"/>
 
-var cors = require('./cors');
+import kernel from "./di/kernel";
 
 export class YabpConfig implements IYabpConfig{
 
@@ -21,7 +22,7 @@ export class YabpConfig implements IYabpConfig{
       server: {
         port:0
       },
-      cors: cors
+      cors: kernel.get<ICors>("ICors")
     }
     YabpConfig._instance = this;
   }

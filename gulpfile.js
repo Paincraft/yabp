@@ -23,8 +23,7 @@ var path = {
                     'frontend/node_modules/rxjs/bundles/Rx.js',
                     'frontend/node_modules/angular2/bundles/angular2.dev.js'
                     ],
-  backendFiles: [//'backend/**/*.js',
-                'backend/modules/config/cors.json']
+  backendFiles: ['backend/**/*.json']
 };
 
 var base = {base: './'};

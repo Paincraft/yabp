@@ -1,3 +1,4 @@
+/// <reference path="../../backend/modules/config/models/config.models.ts"/>
 interface IYabpDbConfig{
 	url: string;
 	port: number;
@@ -11,7 +12,7 @@ interface IYabpServerConfig{
 interface IYabpConfigData {
 	db:IYabpDbConfig;
 	server:IYabpServerConfig;
-	cors?:any;
+	cors?:ICors;
 }
 
 interface IYabpConfig{
